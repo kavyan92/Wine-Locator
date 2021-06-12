@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Wine Finder{% endblock %}
+
+{% block body %}
+<h1>Welcome!</h1>
+
+<h2>Wines</h2>
+    <p><a href="/wines">View all wines</a></p>
+<h2>Sign Up and save your preferred wines!</h2> 
+    <section id="signup">
+      <button id="signup-button"><a href="/signup">Sign Up</a></button>
+    </section>
+
+<h2>Login</h2>
+    <section id="login">
+        <button id="login-button"><a href="/login">Log In</a></button>
+    </section>
+
+
+{% endblock %}
