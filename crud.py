@@ -1,6 +1,6 @@
 """CRUD operations."""
 
-from model import db, User, Wine, Store, connect_to_db
+from model import db, connect_to_db, User, Wine, Store
 
 def create_user(first_name, last_name, email, password):
     """Create and return a new user."""
@@ -27,11 +27,11 @@ def get_user_by_email(email):
 
     return User.query.filter_by(email = email).first()
 
-def create_wine(name, varietal, color, region, country, year_made):
+def create_wine(name, url, color, region=None, country=None, vintage=None):
     """Create and return a new wine."""
 
-    wine = Wine(name=name, varietal=varietal, color=color, region=region,
-                country=country, year_made=year_made)
+    wine = Wine(name=name, url=url, color=color, region=region,
+                country=country, vintage=vintage)
 
     db.session.add(wine)
     db.session.commit()
@@ -58,11 +58,6 @@ def get_wines_by_country(country):
 
     return Wine.query.filter(Wine.country == country).all()
 
-def get_wines_by_grape(varietal):
-    """Return all wines by grape varietal."""
-
-    return Wine.query.filter(Wine.varietal == varietal).all()
-
 def get_wines_by_color(color):
     """Return all wines by color."""
 
@@ -85,6 +80,16 @@ def create_store(name, location):
 
     return store
 
+def get_all_stores():
+    """Return all stores in database."""
+
+    return Store.query.all()
+
+def get_stores_by_name(name):
+    """Return all stores by name."""
+
+    return Store.query.filter(Store.name == name).all()
+
 def get_wines_by_store(store_id):
     """Get all wines available at a certain store."""
 
@@ -99,16 +104,29 @@ def get_stores_by_wine(wine_id):
 
     return wine.stores
 
+def get_store_by_id(store_id):
+    """Get store by store id."""
+
+    store = Store.query.get(store_id)
+
+    return store
+
 def seed_users_and_wines(wine, user):
     """Save wines a user likes to that user."""
     
     user.wines.append(wine)
+    db.session.add(user)
+    db.session.commit()
+    return user.wines
 
 def seed_stores_and_wines(wine, store):
     """Save wines a store sells to that store."""
 
     store.wines.append(wine)
+    db.session.add(store)
+    db.session.commit()
+    return store.wines
 
-if __name__ == '__main__':
-    from server import app
-    connect_to_db(app) # we should get rid of
+# if __name__ == '__main__':
+#     from server import app
+#     connect_to_db(app) # we should get rid of

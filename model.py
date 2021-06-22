@@ -40,24 +40,23 @@ class Wine(db.Model):
                         autoincrement=True,
                         primary_key=True)
     name = db.Column(db.String)
-    varietal = db.Column(db.String(25))
+    url = db.Column(db.String)
     color = db.Column(db.String(25))
     region = db.Column(db.String(25))
     country = db.Column(db.String(25))
-    year_made = db.Column(db.Integer)
-    # user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    vintage = db.Column(db.Integer)
 
     # establish relationship with user and store table
     user = db.relationship('User', 
                             secondary=user_wine_association_table,
                             backref='wines')
 
-    store = db.relationship('Store',
+    stores = db.relationship('Store',
                             secondary=store_wine_association_table,
                             backref='wines')
 
     def __repr__(self):
-        return f'<Wine wine_id={self.wine_id} name={self.name} varietal={self.varietal}>'
+        return f'<Wine wine_id={self.wine_id} name={self.name} region={self.region}>'
 
 
 class Store(db.Model):
@@ -75,15 +74,24 @@ class Store(db.Model):
         return f'<Store store_id={self.store_id} name={self.name} location={self.location}>'
 
     
-def connect_to_db(flask_app, db_uri='postgresql:///wines', echo=True):
-    flask_app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
-    flask_app.config['SQLALCHEMY_ECHO'] = False
-    flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# def connect_to_db(app, db_uri='postgresql:///wines', echo=True):
+#     flask_app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+#     flask_app.config['SQLALCHEMY_ECHO'] = False
+#     flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-    db.app = flask_app
-    db.init_app(flask_app)
+#     db.app = flask_app
+#     db.init_app(app)
 
-    print("Connected to the db!")
+#     print("Connected to the db!")
+
+def connect_to_db(app):
+    """Connect the database to our Flask app."""
+
+    app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///wines"
+    app.config["SQLALCHEMY_ECHO"] = False
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    db.app = app
+    db.init_app(app)
 
 if __name__ == '__main__':
     from server import app
