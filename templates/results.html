@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Search Results{% endblock %}
+
+{% block body %}
+<h1>Results</h1>
+<ul>
+    {% if name %}
+        {% for result in search_results %}
+        <li> {{ result['wine'] }} 
+            - {{ result['vintage'] }}
+        </li>
+        {% endfor %}
+    {% else %}
+        {% for result in results['results'] %}
+        <li> {{ result['wine'] }} 
+            - {{ result['vintage'] }}
+        </li>
+        {% endfor %}
+   {% endif %}
+</ul>
+{% endblock %}
+

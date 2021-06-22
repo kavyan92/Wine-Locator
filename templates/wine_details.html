@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Wine Details{% endblock %}
+
+
+{% block body %}
+    <h1>Wine Details</h1>
+    <img class="wine" src="{{ wine.url }}"/>
+    <h2>{{ wine.name }}</h2>
+    <form action="/wines/{{wine.wine_id}}" method="POST">
+        <input type="hidden" name="wine-id" value="{{ wine.wine_id }}">
+        <button id="save-wine">Save to my Wines!</button>
+    </form>
+    <ul></ul>
+        <li>{{ wine.vintage }}</li>
+        <li>{{ wine.country }}</li>
+        <li>{{ wine.region }}</li>
+    </ul>
+
+    <h2>Available for purchase at:</h2>
+    {% for store in wine.stores %}
+    <ul>
+        <li><a href="/stores/{{ store.store_id }}">
+                {{ store.name }} {{ store.location }}
+        </li>
+    </ul>
+    {% endfor %}
+
+{% endblock %}

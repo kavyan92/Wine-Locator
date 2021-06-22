@@ -8,7 +8,7 @@
         {% for wine in wines %}
             <li>
                 <a href="/wines/{{ wine.wine_id }}">
-                    {{ wine.name }} {{ wine.varietal }} {{ wine.year_made }}
+                    {{ wine.name }} {{ wine.vintage }}
                 </a>
             </li>
         {% endfor %}    

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Store Details{% endblock %}
+
+{% block body %}
+    <h1>{{ store.name }}</h1>
+    <p>{{ store.location }}</p>
+
+    <h2>Wines available for purchase:</h2>
+    <ul>
+        {% for wine in store.wines %}
+        <li><a href="/wines/{{ wine.wine_id }}">
+            {{ wine.name }}
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

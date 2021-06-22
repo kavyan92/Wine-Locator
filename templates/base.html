@@ -10,6 +10,14 @@
         {% block head %}{% endblock %}
     </head>
     <body>
+        {% if session.get('user') %}
+            <button id="logout-button" onclick="location.href='/logout'">Log Out</button>
+        {% else %}
+            <h2>Sign Up and save your preferred wines!</h2> 
+                <button id="signup-button" onclick="location.href='/signup'">Sign Up</button>
+            <h2>Login</h2>
+                <button id="login-button" onclick="location.href='/login'">Log In</button>
+        {% endif %}
         {% block body %}{% endblock %}
     </body>
 

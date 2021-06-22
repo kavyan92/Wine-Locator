@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}My Wines{% endblock %}
+
+{% block body %}
+
+<h1>Welcome {{ user.first_name }}!</h1>
+
+<h2>Your saved wines:</h2>
+    <ul id="my-wines">
+        {% for wine in user.wines %}
+        <li>
+        <div class="wines-div">
+            <img class="wine" src="{{ wine.url }}"/>
+            <h3>{{ wine.name }}</h3>       
+                <form action="/my_wines" method="POST">
+                    <input type="hidden" name="wine-id" value="{{ wine.wine_id }}">
+                    <button id="remove-wine">Remove from my Wines</button>
+                </form>    
+        </div>
+        </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
