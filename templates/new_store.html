@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Enter new store!{% endblock %}
+
+{% block body %}
+<h1>Upload your store inventory</h1>
+
+<form action="/newstore">
+    <p>Store name: <input class="form-control" type="text" name="store-name"></p>
+    <p>Address: <input class="form-control" type="text" name="store-address"></p>
+    <div>Upload your inventory!</div>
+        <div><input class="form-control" type="file" id="inventory" name="store-inventory">
+        </div>
+</form>
+{% endblock %}
+
+
+

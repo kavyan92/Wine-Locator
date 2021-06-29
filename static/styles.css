@@ -1,0 +1,47 @@
+h1, h2 {
+  font-family: Optima;
+  font-size: 20px;
+}    
+
+#login-buton {
+  /* position: relative; */
+  display:inline-block;
+  top: 0;
+  right: 0;
+  margin-top: 4px;
+  margin-right: 4px;
+}
+
+#signup-button {
+  /* position: absolute; */
+  display: inline-block;
+  top: 0;
+  right: 0;
+  margin-top: 4px;
+  margin-right: 4px;
+}
+
+img {
+  height: 200px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+li {
+  display: block;
+  font-family: Optima;
+  font-size: 14px;
+}
+
+.container {
+  margin-left: 0px;
+  padding-left: 0%;
+
+}
+
+.navbar-brand {
+  
+  font-size: 32px;
+}
