@@ -1,27 +1,56 @@
 {% extends 'base.html' %}
 {% block title %}Wine Finder{% endblock %}
 
+{% block head %}
+<style>
+    body {
+      background: url('https://images.unsplash.com/photo-1600785083256-af20340db482?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2734&q=80')
+      no-repeat center center fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      background-size: cover;
+      -o-background-size: cover;
+    }
+
+    .container {
+        width: 100vw;
+        margin-top: 8px;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        margin-bottom: 8px;
+    }
+
+    div {
+        font-family: Optima;
+    }
+
+    .col {
+        display:flex;
+        justify-content:center;
+    }
+</style>
+{% endblock %}
+
 {% block body %}
+<div class="container">
 <h1>Welcome!</h1>
-
-<h2>Wines</h2>
-    <p><a href="/wines">View all wines</a></p>
-    <p><a href="/my_wines">View my saved wines</a></p>
-
-<h3>
-    <form action="/results" method="GET">
-        Name of wine
-        <input type="text" name="wine_name">
-        Color
-        <select name="color">
-            <option value="" selected disabled hidden></option>
+<h3><a href="newstore">Upload your store's inventory!</a></h3>
+<form action="/results" method="GET">
+    <div class="row g-3">
+    <div class="col-md-4">
+        <input class="form-control" placeholder="name of wine" type="text" name="wine_name">
+    </div>
+    <div class="col-auto">
+        <select class="form-select" name="color">
+            <option value="" selected disabled hidden>color</option>
             <option value="red">Red</option>
             <option value="pink">Pink</option>
             <option value="white">White</option>
         </select>
-        Country
-        <select name="country">
-            <option value="" selected disabled hidden></option>
+    </div>
+    <div class="col-md-2">
+        <select class="form-select" name="country">
+            <option value="" selected disabled hidden>country</option>
             <option value="Usa">USA</option>
             <option value="France">France</option>
             <option value="Italy">Italy</option>
@@ -35,10 +64,10 @@
             <option value="Portugal">Portugal</option>
             <option value="China">China</option>
         </select>
-        Region
-        <!-- <select id="appellation-facet" class="js-example-basic-multiple select2-hidden-accessible" name="appellation" multiple="" tabindex="-1" aria-hidden="true"> -->
-        <select name="region">
-            <option value="" selected disabled hidden></option>   
+    </div>
+    <div class="col-md-2">
+        <select class="form-select" name="region">
+            <option value="" selected disabled hidden>region</option>   
             <option value="Saint Emilion Grand Cru">Saint Emilion Grand Cru</option>
             <option value="Napa Valley">Napa Valley</option>
             <option value="Pessac Leognan">Pessac Leognan</option>
@@ -382,11 +411,10 @@
             <option value="Ventoux">Ventoux</option>
             <option value="Vin Santo Di Montepulciano">Vin Santo Di Montepulciano</option>
         </select>
-        Vintage
-        <select name="vintage">
-            <!-- <select id="vintages-facet" class="js-example-basic-multiple select2-hidden-accessible" name="vintages" multiple="" tabindex="-1" aria-hidden="true">
-                Vintages facet will appear here -->
-            <option value="" selected disabled hidden></option>     
+    </div>
+    <div class="col-auto">
+        <select class="form-select" name="vintage">
+            <option value="" selected disabled hidden>vintage</option>     
             <option value="2020">2020</option>
             <option value="2019">2019</option>
             <option value="2018">2018</option>
@@ -481,19 +509,28 @@
             <option value="1847">1847</option>
             <option value="1811">1811</option>
         </select>
-        <input type="submit">
-    </form>
-</h3>
-<section>
-<ul>
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary">search</button>
+    </div>
+    </div>
+</form>
+</div>
+
+<div class="container text-center">
+    <div id="products" class="row row-cols-1 row-cols-md-3 g-4">
     {% for wine in wines %}
-    <li>
-    <span class="wine-span">
-        <img class=border src="{{ wine.url }}"/>
-        <h4>{{ wine.name }}</h4>
-    </span>
-    </li>
+    <div class="col">
+        <div class="card ml-4 mr-4">
+            <img class="card-img-top" src="{{ wine.url }}"/>
+            <div class="card-body">
+                <div class="card-title">
+                    <h5><a href="/wines/{{ wine.wine_id }}">{{ wine.name }}</a></h5>
+                </div>
+            </div>
+        </div>        
+    </div>    
     {% endfor %}
-</ul>
-</section>
+    </div>
+</div>
 {% endblock %}

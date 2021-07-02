@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+{% block title %} Wine Details {% endblock %}
+
+{% block head %}
+
+<!-- <title>Wine Locator</title> -->
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+<meta charset="utf-8">
+<style>
+    /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+    #map {
+        width: 50%;
+        height: 80%;
+        background-color: grey;
+        position: absolute;
+        float: right;
+    }
+    /* Optional: Makes the sample page fill the window. */
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    #save-wine {
+        align-self: center;
+    }
+
+    .open {
+        width: 250px;
+    }
+
+    .details {
+        color: darkslategrey;
+    }
+
+    img {
+        height: 200px;
+        align-self: center;
+    }
+    .col {
+        /* display:flex;
+        justify-content:center; */
+    }
+
+</style>
+{% endblock %}
+
+{% block body %}
+<!-- TODO: Step 4A2: Add a generic sidebar -->
+<div class="container">
+<div class="row">
+    <div class="col">
+    <h1>Wine Details</h1>
+    <h2><img class="wine" src="{{ wine.url }}" /></h2>
+    <p><h1>{{ wine.name }}</h1></p>
+
+    <form action="/wines/{{wine.wine_id}}" method="POST">
+        <input type="hidden" name="wine-id" value="{{ wine.wine_id }}">
+        <h1><button id="save-wine">Save to my Wines!</button></h1>
+    </form>
+    
+    {% if wine.vintage%}
+        <ul>
+            <li>{{ wine.vintage }}</li>
+            <li>{{ wine.country }}</li>
+            <li>{{ wine.region }}</li>
+        </ul>
+    {% endif %}
+
+    <h2>Available for purchase at:</h2>
+    <ul>
+    {% for store in wine.stores %}
+        <li>
+            <a href="/stores/{{ store.store_id }}" value="{{ store.location }}" id="address">
+                {{ store.name }}: {{ store.location }}
+            </a>
+        </li>
+    {% endfor %}
+    </ul>
+    </div>
+    <div class="col">
+    <!-- TODO: Step 4A2: Add a generic sidebar -->
+    <!-- The slide-out panel for showing place details -->
+
+    <!-- <-- Map appears here -->
+    <div id="map"></div>
+    <!--TODO: Step 1B, Add a map -->
+    <script>
+        /* Note: This example requires that you consent to location sharing when
+        * prompted by your browser. If you see the error "Geolocation permission
+        * denied.", it means you probably did not give permission for the browser * to locate you. */
+
+        /* TODO: Step 2, Geolocate your user
+        * Replace the code from here to the END TODO comment with new code from
+        * codelab instructions. */
+        let pos;
+        let map;
+        let bounds;
+        let infoWindow;
+        let currentInfoWindow;
+        let service;
+        let infoPane;
+        function initMap() {
+            // Initialize variables
+            bounds = new google.maps.LatLngBounds();
+            infoWindow = new google.maps.InfoWindow;
+            currentInfoWindow = infoWindow;
+            /* TODO: Step 4A3: Add a generic sidebar */
+            infoPane = document.getElementById('panel');
+            console.log(infoPane)
+
+            // Try HTML5 geolocation
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    map = new google.maps.Map(document.getElementById('map'), {
+                        center: pos,
+                        zoom: 5
+                    });
+                    bounds.extend(pos);
+
+                    infoWindow.setPosition(pos);
+                    infoWindow.setContent('Location found.');
+                    infoWindow.open(map);
+                    map.setCenter(pos);
+
+                    /* TODO: Step 3B2, Call the Places Nearby Search */
+                    // Call Places Nearby Search on user's location
+                    // getNearbyPlaces(pos);
+                },
+                    () => {
+                        // Browser supports geolocation, but user has denied permission
+                        handleLocationError(true, infoWindow);
+                    });
+                // } else {
+                // // Browser doesn't support geolocation
+                // handleLocationError(false, infoWindow);
+                // }
+
+
+                const storeAddresses = document.querySelectorAll('a');
+                const addresses = [];
+                console.log(storeAddresses);
+                for (const item of storeAddresses) {
+                    store = item.innerHTML;
+                    console.log(store);
+                    let name = store.split(":")[0];
+                    let street = store.split(": ")[1];
+                    let address = { "name": name.trim(), "coords": street };
+                    addresses.push(address);
+                } // end for loop of item
+
+                console.log(addresses.coords);
+
+                const markers = [];
+                for (let object of addresses) {
+                    const geocoder = new google.maps.Geocoder();
+                    let street = object.coords;
+                    console.log(object.coords);
+                    geocoder.geocode({ address: street }, (results, status) => {
+                        console.log(results, status)
+
+                        if (status === 'OK') {
+                            console.log(results)
+                            // Get coordinates of user's location
+                            const storeLocation = results[0].geometry.location;
+
+                            let marker = (new google.maps.Marker({
+                                position: storeLocation,
+                                title: object.name,
+                                map: map
+                            }));
+
+
+                            markers.push(marker);
+
+                            marker.addListener('click', () => {
+                                console.log('Inside listener')
+
+                                const markerInfo = (`<h1>${marker.title}</h1><p>Located at: ${street} </p>`);
+                                const infoWindow = new google.maps.InfoWindow({
+                                    content: markerInfo,
+                                    maxWidth: 200
+                                });
+                                infoWindow.open(map, marker);
+                            });
+                            // } // end else
+
+
+                        } else {
+                            console.log("Geocode was unsuccessful for the following reason: ${status}");
+                        } // end else
+                    }) // end of the geocode
+                }
+                    
+            } else {
+                // Browser doesn't support geolocation
+                handleLocationError(false, infoWindow);
+            }
+        }; // end of initMap()
+
+        // Handle a geolocation error
+        function handleLocationError(browserHasGeolocation, infoWindow) {
+            // Set default location to SF
+            pos = { lat: 37.7749, lng: -122.4194 };
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: pos,
+                zoom: 12
+            });
+
+
+            // Display an InfoWindow at the map center
+            infoWindow.setPosition(pos);
+            infoWindow.setContent(browserHasGeolocation ?
+                'Geolocation permissions denied. Using default location.' :
+                'Error: Your browser doesn\'t support geolocation.');
+            infoWindow.open(map);
+            currentInfoWindow = infoWindow;
+
+
+        } // end handleLocationError
+
+    </script>
+
+    <!-- TODO: Step 1C, Get an API key -->
+    <!-- TODO: Step 3A, Load the Places Library -->
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZvV-X2w57AYSevOLxHESqsSDqLHvpZGI&libraries=places&callback=initMap">
+        </script>
+    </div>
+</div> 
+</div>
+{% endblock %}

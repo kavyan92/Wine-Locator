@@ -1,24 +1,37 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <!-- CSS only -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="/static/styles.css">
+        
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
         <title>
             {% block title %}{% endblock %}
         </title>
-        <link rel="shortcut icon" href="#" />
+        <link rel="shortcut icon" href="#"/>
         {% block head %}{% endblock %}
     </head>
     <body>
-        {% if session.get('user') %}
-            <button id="logout-button" onclick="location.href='/logout'">Log Out</button>
-        {% else %}
-            <h2>Sign Up and save your preferred wines!</h2> 
-                <button id="signup-button" onclick="location.href='/signup'">Sign Up</button>
-            <h2>Login</h2>
-                <button id="login-button" onclick="location.href='/login'">Log In</button>
-        {% endif %}
-        {% block body %}{% endblock %}
+    <nav class="navbar navbar-light bg-light">
+        <h1 class="navbar-brand fw-bold" id="nav-header">Wine Locator</h1>
+            <a id="nav-link" class="nav-link" href="/">Home</a>
+            <a id="nav-link" class="nav-link" href="/wines">Wine Library</a>
+            <a id="nav-link" class="nav-link" href="/my_wines">My Cellar</a>
+        <div class="d-flex justify-content-end">
+            {% if session.get('user') %}
+            <button class="d-flex justify-content-end" id="logout-button" onclick="location.href='/logout'">Log Out</button>
+            {% else %}
+                <button class="d-grid gap-2 row-2 pull-right" id="signup-button" onclick="location.href='/signup'">Sign Up</button>
+                <button class="d-grid gap-2 row-2 pull-right" id="login-button" onclick="location.href='/login'">Log In</button>
+            {% endif %}
+        </div>
+    </nav>
+       
+    {% block body %}{% endblock %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     </body>
 
 </html>

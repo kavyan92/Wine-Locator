@@ -1,15 +1,45 @@
-{% extends 'base.html' %}
 {% block title %}Create Account{% endblock %}
+{% block head %}
+<head> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        
+    <link rel="stylesheet" href="/static/styles.css">
+
+    <style>
+        body {
+            background: url('https://images.unsplash.com/photo-1516594915697-87eb3b1c14ea?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')
+            no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            background-size: cover;
+            -o-background-size: cover;
+        }
+    
+        p {
+            color: white;
+            font-family: Optima;
+            text-align: center;
+        }
+    
+        .container {
+            height: 100vh;
+        }
+        </style>     
+</head> 
+{% endblock %}
 
 {% block body %}
-
-<h1>Create Account</h1>
-    <form action="/signup" method="POST">
-        <p>First Name <input type="text" name="first_name"></p>
-        <p>Last Name <input type="text" name="last_name"></p>
-        <p>Email <input type="text" name="email"> </p>
-        <p>Password <input type="password" name="password"></p>
-        <p><input type="submit"></p>
-    </form>
-
+<div id="new-store-page" class="d-flex justify-content-center align-items-center container text-center">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-sm-14 col-md-30 col-md-offset-1"></div>
+        <form action="/signup" method="POST">
+            <p><input class="form-control" type="text" name="first_name" placeholder="first name"></p>
+            <p><input class="form-control" type="text" name="last_name" placeholder="last name"></p>
+            <p><input class="form-control" type="text" name="email" placeholder="email"></p>
+            <p><input class="form-control" type="password" name="password" placeholder="password"></p>
+            <p><button type="submit" class="btn btn-primary">create account</button></p>
+        </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

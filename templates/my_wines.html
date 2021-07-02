@@ -1,24 +1,47 @@
 {% extends 'base.html' %}
-{% block title %}My Wines{% endblock %}
+{% block title %}My Cellar{% endblock %}
+
+{% block head %}
+<style>
+    body {
+      background: url('https://images.unsplash.com/photo-1598112973620-70dd9833f67e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1267&q=80')
+      no-repeat center center fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      background-size: cover;
+      -o-background-size: cover;
+    }
+
+    .col {
+        display:flex;
+        justify-content:center;
+    }
+</style>
+{% endblock %}
 
 {% block body %}
 
 <h1>Welcome {{ user.first_name }}!</h1>
 
 <h2>Your saved wines:</h2>
-    <ul id="my-wines">
-        {% for wine in user.wines %}
-        <li>
-        <div class="wines-div">
-            <img class="wine" src="{{ wine.url }}"/>
-            <h3>{{ wine.name }}</h3>       
-                <form action="/my_wines" method="POST">
-                    <input type="hidden" name="wine-id" value="{{ wine.wine_id }}">
-                    <button id="remove-wine">Remove from my Wines</button>
-                </form>    
+    <div class="container text-center">
+        <div id="products" class="row row-cols-1 row-cols-md-3 g-4">
+                {% for wine in user.wines %}
+                    <div class="col">
+                    <div class="card ml-4 mr-4">
+                        <img class="card-img-top" src="{{ wine.url }}"/>
+                        <div class="card-body">
+                            <div class="card-title">
+                                <h3><a href="/wines/{{ wine.wine_id }}">{{ wine.name }}</a></h3>
+                            </div>
+                            <form action="/my_wines" method="POST">
+                                <input type="hidden" name="wine-id" value="{{ wine.wine_id }}">
+                                <button id="remove-wine">Remove from my Wines</button>
+                            </form> 
+                        </div> 
+                    </div>
+                    </div>
+                {% endfor %}
         </div>
-        </li>
-        {% endfor %}
-    </ul>
-
+    </div>
 {% endblock %}
