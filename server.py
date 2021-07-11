@@ -18,10 +18,10 @@ GWS_API_KEY = os.environ.get('GWS_API_KEY')
 def homepage():
     """Display homepage."""
 
-    all_wines = crud.get_all_wines()
+    wf_wines = crud.get_wines_by_store(25)
     wines = []
-    for _ in range(20):
-        wines.append(choice(all_wines))
+    for _ in range(21):
+        wines.append(choice(wf_wines))
    
     return render_template('homepage.html', wines=wines)
 
@@ -29,54 +29,25 @@ def homepage():
 def search():
     """Display search results based on user input properties."""
 
-    url = 'https://api.globalwinescore.com/globalwinescores/latest/'
-    # params = {
-    #     'wine_id': wine_id, # allows for multiple wine_ids to be queried
-    #     'color': color,
-    #     'vintage': vintage,
-    #     'country': country,
-    #     'appellation': appellation,
-    #     'limit': # explicitly set to 10 or ask user w/ request.form.get('result_limit'),
-    #     'ordering': '-score' or '-date'
-    # }
-
     name = request.args.get("wine_name")
     color = request.args.get("color")
     vintage = request.args.get("vintage")  
     country = request.args.get("country")
     region = request.args.get("region")
-    
-    print(name, '&&&&&&&&&&& NAME')
-
-    params = {
-        # 'wine': name,
-        'color': color,
-        'vintage': vintage,
-        'country': country,
-        'appellation': region,
-        'limit': 1000,
-        # 'ordering': '-score'
-        }
-   
-    headers = {
-        'Authorization': GWS_API_KEY
-    }
-
-    response = requests.get(url, params=params, headers=headers)
-    results = response.json()
-
+ 
     search_results = [] 
+        
+    wines = crud.get_wines_by_color(color)
+        
     if name:
-        for result in results['results']:
-            print(result)
-            if name.lower() in result['wine'].lower():
-                search_results.append(result)
+        for wine in wines:
+            if name.lower() in wine.name.lower():
+                search_results.append(wine)
                 
     else:
-        search_results = results
+        search_results = wines
 
-    print(search_results)
-    return render_template('results.html', results=results, search_results=search_results, name=name)
+    return render_template('results.html', wines=wines, search_results=search_results, name=name)
     
 @app.route("/wines")
 def all_wines():
@@ -92,7 +63,7 @@ def show_wine(wine_id):
 
     wine = crud.get_wine_by_id(wine_id)
     
-    return render_template("wine_details.html", wine=wine)
+    return render_template("wine_details_play.html", wine=wine)
 
 @app.route("/wines/<wine_id>", methods=["POST"])
 def save_wine_to_user(wine_id):
@@ -103,19 +74,16 @@ def save_wine_to_user(wine_id):
     user = crud.get_user_by_id(session["user"])
   
     if user:
-        # print(user.wines)
         if wine in user.wines:
             flash("You have already liked this wine!")
             print("You have already liked this wine!")
         else: 
             user_wines = crud.seed_users_and_wines(wine, user)
-            # print(user_wines)
             flash("Wine saved!")
     else:
         flash("You must be logged in to save wines!")
         return redirect("/login")
 
-    # # anticipating duplicates, fix!
     return redirect("/my_wines")
 
 @app.route("/my_wines")
@@ -142,6 +110,12 @@ def remove_saved_wine():
     db.session.commit()
     
     return redirect("/my_wines")
+
+@app.route("/newstore")
+def create_store():
+    """Display form for store owners to enter store inventory."""
+
+    return render_template("new_store.html") 
 
 @app.route("/signup")
 def sign_up():
@@ -201,7 +175,6 @@ def process_login():
         return redirect("/")
 
 @app.route("/logout")
-
 def process_logout():
     """Log the current user out."""
 

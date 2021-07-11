@@ -24,6 +24,10 @@
     .container {
         height: 100vh;
     }
+
+    button {
+        font-family: Optima;
+    }
     </style>     
 </head> 
 {% endblock %}   
@@ -35,8 +39,8 @@
         <form action="/newstore">
             <p><input class="form-control" type="text" name="store-name" placeholder="store name"></p>
             <p><input class="form-control" type="text" name="store-address" placeholder="address"></p>
-            <p>Upload your inventory!</p>
             <p><input class="form-control" type="file" id="inventory" name="store-inventory"></p>
+            <button type="submit" class="btn btn-primary">submit</button>
         </form>
         </div>
     </div>

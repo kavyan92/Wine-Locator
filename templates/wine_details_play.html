@@ -7,6 +7,14 @@
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
 <meta charset="utf-8">
 <style>
+    body {
+        background: url('https://images.unsplash.com/photo-1516154767575-2146adebdf32?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1267&q=80')
+        no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        background-size: cover;
+        -o-background-size: cover;
+    }
     /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
     #map {
@@ -36,15 +44,18 @@
         color: darkslategrey;
     }
 
+    /* .card {
+        margin: 0px 14px 0px 14px;
+    } */
     img {
         height: 200px;
         align-self: center;
     }
-    .col {
-        /* display:flex;
-        justify-content:center; */
-    }
 
+    .list-group-item {
+        padding: 0.1rem 0.5rem;
+        margin-left: 60px;
+    }
 </style>
 {% endblock %}
 
@@ -52,16 +63,20 @@
 <!-- TODO: Step 4A2: Add a generic sidebar -->
 <div class="container">
 <div class="row">
-    <div class="col">
-    <h1>Wine Details</h1>
-    <h2><img class="wine" src="{{ wine.url }}" /></h2>
-    <p><h1>{{ wine.name }}</h1></p>
-
+    <div class="col justify-content-center">
+        <div class="card justify-content-center mx-auto">
+            <div class="card-body">
+                <div class="card-title">
+                <h1>Wine Details</h1>
+                <h2><img class="card-img-top" src="{{ wine.url }}" /></h2>
+                <p><h1>{{ wine.name }}</h1></p>
     <form action="/wines/{{wine.wine_id}}" method="POST">
         <input type="hidden" name="wine-id" value="{{ wine.wine_id }}">
-        <h1><button id="save-wine">Save to my Wines!</button></h1>
+        <h1><button class="btn btn-primary" id="save-wine">Save to my Cellar!</button></h1>
     </form>
-    
+        </div>
+    </div>
+</div>
     {% if wine.vintage%}
         <ul>
             <li>{{ wine.vintage }}</li>
@@ -69,17 +84,18 @@
             <li>{{ wine.region }}</li>
         </ul>
     {% endif %}
-
-    <h2>Available for purchase at:</h2>
-    <ul>
+    <!-- <h2>Available for purchase at:</h2> -->
+    <div class="col-sm-10">
+    <ul class="list-group list-group-flush mx-auto">
     {% for store in wine.stores %}
-        <li>
+        <li class="list-group-item text-center">
             <a href="/stores/{{ store.store_id }}" value="{{ store.location }}" id="address">
                 {{ store.name }}: {{ store.location }}
             </a>
         </li>
     {% endfor %}
     </ul>
+    </div>
     </div>
     <div class="col">
     <!-- TODO: Step 4A2: Add a generic sidebar -->

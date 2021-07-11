@@ -1,16 +1,57 @@
 {% extends 'base.html' %}
 {% block title %}Store Details{% endblock %}
 
-{% block body %}
-    <h1>{{ store.name }}</h1>
-    <p>{{ store.location }}</p>
+{% block head %}
+<style>
+body {
+      background: url('https://images.unsplash.com/photo-1598112973564-4f5191b4bac1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1295&q=80')
+      no-repeat center center fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      background-size: cover;
+      -o-background-size: cover;
+    }
 
-    <h2>Wines available for purchase:</h2>
-    <ul>
-        {% for wine in store.wines %}
-        <li><a href="/wines/{{ wine.wine_id }}">
-            {{ wine.name }}
-        </li>
-        {% endfor %}
-    </ul>
+.container {
+    width: 100vw;
+    margin-top: 20px;
+    padding-top: 10px;
+    }
+
+.col {
+    height: 25px;
+    }
+
+.list-group-item {
+    padding: 0.1rem 0.5rem;
+    }
+
+h1 {
+    color: white;
+}
+
+h4 {
+    font-family: Optima;
+    font-size: 20px;
+    color: white;
+}
+
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1 class="fw-bold">{{ store.name }}</h1>
+    <h1 class="fw-bold">{{ store.location }}</h1>
+    <div class="col-sm-6">
+        <h4 class="fw-bold">Wines available for purchase:</h4>
+        <ul class="list-group list-group-flush">
+            {% for wine in store.wines %}
+            <li class="list-group-item"><a href="/wines/{{ wine.wine_id }}">
+                {{ wine.name }}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
 {% endblock %}

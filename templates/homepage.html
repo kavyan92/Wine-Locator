@@ -4,7 +4,7 @@
 {% block head %}
 <style>
     body {
-      background: url('https://images.unsplash.com/photo-1600785083256-af20340db482?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2734&q=80')
+      background: url('https://images.unsplash.com/photo-1516154767575-2146adebdf32?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1267&q=80')
       no-repeat center center fixed;
       -webkit-background-size: cover;
       -moz-background-size: cover;
@@ -27,14 +27,15 @@
     .col {
         display:flex;
         justify-content:center;
+        align-content: center;
     }
+
 </style>
 {% endblock %}
 
 {% block body %}
 <div class="container">
-<h1>Welcome!</h1>
-<h3><a href="newstore">Upload your store's inventory!</a></h3>
+<h4><form action="/newstore"><button id="new-store" class="btn btn-primary">Add your store</button></form></h4>
 <form action="/results" method="GET">
     <div class="row g-3">
     <div class="col-md-4">
@@ -514,7 +515,7 @@
         <button type="submit" class="btn btn-primary">search</button>
     </div>
     </div>
-</form>
+</form></p>
 </div>
 
 <div class="container text-center">

@@ -1,28 +1,107 @@
-h1, h2 {
+
+h1 {
   font-family: Optima;
   font-size: 20px;
-}    
+  text-align: center;
+  padding-bottom: 4px;
+  margin-bottom: 0rem;
+}
 
-#login-buton {
-  /* position: relative; */
-  display:inline-block;
+h2 {
+  font-family: Optima;
+  font-size: 20px;
+  text-align: center;
+  padding-bottom: 4px;
+  margin-bottom: 0rem;
+  margin-top: 8px;
+}
+
+h3 {
+  font-family: Optima;
+  font-size: 14px;
+}
+
+#nav-header {
+  font-family: Optima;
+  color: rgb(70, 11, 11);
+}
+
+#nav-link {
+  color: black;
+}
+
+#login-page {
+  height: 100vh;
+}
+
+#login-button {
+  /* display:inline-block; */
   top: 0;
   right: 0;
-  margin-top: 4px;
-  margin-right: 4px;
+  height: 36px;
+  text-align: center;
+  font-family: Optima;
+}
+
+.card {
+  width: 223.33px; 
+}
+
+.card-title {
+  color: black;
+}
+
+#navbar {
+  background-color: transparent;
+}
+
+#new-store {
+  top: 0;
+  right: 0;
+  height: 36px;
+  text-align: center;
+  font-family: Optima;
+}
+
+#logout-button {
+  font-family: Optima;
 }
 
 #signup-button {
   /* position: absolute; */
-  display: inline-block;
+  /* display: inline-block; */
   top: 0;
   right: 0;
-  margin-top: 4px;
-  margin-right: 4px;
+  height: 36px;
+  vertical-align: middle;
+  font-family: Optima;
+}
+
+a {
+  font-family: Optima;
+}
+
+a:link {
+  text-decoration: none;
+  color: rgb(2, 2, 180);
+}
+
+a:visited {
+  text-decoration: none;
+  color: rgb(2, 2, 180);
+}  
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:active {
+  text-decoration: underline;
 }
 
 img {
   height: 200px;
+  opacity: 0.90;
 }
 
 ul {
@@ -35,13 +114,10 @@ li {
   font-size: 14px;
 }
 
-.container {
-  margin-left: 0px;
-  padding-left: 0%;
-
+#products {
+  text-align: center;
 }
 
 .navbar-brand {
-  
   font-size: 32px;
 }
